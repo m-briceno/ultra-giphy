@@ -27,7 +27,7 @@ import { GiphyEffects } from './ultra-giphy/store/effects/gipphy.effects';
     NgbModule,
     AppRoutingModule,
     CoreModule,
-    EffectsModule.forFeature([GiphyEffects]),
+    EffectsModule.forRoot([GiphyEffects]),
     StoreModule.forRoot({ ultraGiphy: giphyReducer })
   ],
   providers: [],

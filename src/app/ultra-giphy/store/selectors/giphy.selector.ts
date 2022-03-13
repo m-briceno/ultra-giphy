@@ -1,4 +1,15 @@
-import { AppState } from "../reducers/app.state";
+import { createSelector } from "@ngrx/store";
+import { AppState } from "../interfaces/app.state";
+import { GiphyState } from "../interfaces/giphy.state";
 
-export const getGiphies = (state: AppState) => state.giphies
-export const getCurrentPage = (state: AppState) => state.currentPage
+export const selectGiphyState = (state: AppState) => state.giphy;
+
+export const getGiphies = createSelector(
+  selectGiphyState,
+  (state: GiphyState) => state.giphies
+);
+
+export const getCurrentPage = createSelector(
+  selectGiphyState,
+  (state: GiphyState) => state.currentPage
+);

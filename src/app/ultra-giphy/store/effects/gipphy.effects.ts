@@ -1,11 +1,10 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
-import { map, mergeMap, of, withLatestFrom } from "rxjs";
-import { Giph } from "../../models/giph";
-import { GiphyApiService } from "../../services/giphy-api.service";
+import { mergeMap, withLatestFrom } from "rxjs";
+import { GiphyService } from "src/app/services/giphy.service";
 import { firstPage, lastPage, nextPage, previousPage, searchGiphies, searchSpecificGiphies } from "../actions/giphy.actions";
-import { AppState } from "../reducers/app.state";
+import { AppState } from "../interfaces/app.state";
 import { getGiphies } from "../selectors/giphy.selector";
 
 @Injectable()
@@ -14,12 +13,12 @@ export class GiphyEffects {
   constructor(
     private actions$: Actions,
     private store: Store<AppState>,
-    private giphyService: GiphyApiService
+    private giphyService: GiphyService
   ) { }
 
 
   //Probabily many things here will be unnecessary.
-  nextPage$ = createEffect(() =>
+  /* nextPage$ = createEffect(() =>
     this.actions$.pipe(
       ofType(nextPage),
       withLatestFrom(this.store.select(getGiphies)),
@@ -77,5 +76,5 @@ export class GiphyEffects {
         return [lastPage()];
       })
     )
-  );
+  ); */
 }

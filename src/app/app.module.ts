@@ -11,8 +11,14 @@ import { FooterComponent } from './ultra-giphy/components/footer/footer.componen
 import { GiphyGridComponent } from './ultra-giphy/components/giphy-grid/giphy-grid.component';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { giphyReducer } from './ultra-giphy/store/reducers/giphy.reducer';
+import * as giphyState from './ultra-giphy/store/reducers/giphy.reducer';
 import { GiphyEffects } from './ultra-giphy/store/effects/gipphy.effects';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { GiphyHeaderInterceptor } from './core/interceptors/header-interceptor';
+import * as httpRequests from './ultra-giphy/store/reducers/http-requests.reducer';
+import { HttpCounterInterceptor } from './core/interceptors/http-counter-interceptor';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -27,10 +33,17 @@ import { GiphyEffects } from './ultra-giphy/store/effects/gipphy.effects';
     NgbModule,
     AppRoutingModule,
     CoreModule,
+    StoreModule.forRoot({
+      ultraGiphy: giphyState.reducer,
+      httpRequests: httpRequests.reducer,
+    }),
     EffectsModule.forRoot([GiphyEffects]),
-    StoreModule.forRoot({ ultraGiphy: giphyReducer })
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: GiphyHeaderInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpCounterInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

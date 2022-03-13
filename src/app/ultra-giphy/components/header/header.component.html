@@ -1,1 +1,18 @@
-<p>header works!</p>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a href="/">
+      <img src="./../../../../assets/giphy.png" alt="">
+    </a>
+
+    <!-- An overkill in my opinion to use a formgroup-->
+    <!-- <form class="d-flex" [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+      <input class="form-control me-2" formControlName="userInput" placeholder="Search">
+      <button class="btn btn-outline-success" type="submit">Search</button>
+    </form> -->
+
+    <div class="d-flex" (ngSubmit)="onSubmit()">
+      <input class="form-control me-2" [(ngModel)]="userInput" type="search" placeholder="Search">
+      <button class="btn btn-outline-success" type="submit" (click)="onSubmit()">Search</button>
+    </div>
+  </div>
+</nav>

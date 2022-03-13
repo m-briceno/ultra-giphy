@@ -1,13 +1,13 @@
-import { AppState } from './app.state';
-import { createReducer, on } from '@ngrx/store';
+import { Action, createReducer, on } from '@ngrx/store';
 import { firstPage, lastPage, nextPage, previousPage, searchGiphies, searchSpecificGiphies } from '../actions/giphy.actions';
+import { GiphyState } from '../interfaces/giphy.state';
 
-export const initialState: AppState = {
+const initialState: GiphyState = {
   giphies: [],
-  currentPage: 0
+  currentPage: 0,
 };
 
-export const giphyReducer = createReducer(
+const giphyReducer = createReducer(
   initialState,
   on(nextPage, state => ({ ...state })),
   on(previousPage, state => ({ ...state })),
@@ -16,3 +16,10 @@ export const giphyReducer = createReducer(
   on(searchGiphies, state => ({ ...state })),
   on(searchSpecificGiphies, (state, { query }) => ({ ...state })),
 );
+
+export function reducer(
+  state: GiphyState | undefined,
+  action: Action
+): GiphyState {
+  return giphyReducer(state, action);
+}

@@ -6,10 +6,5 @@ export const selectHttpRequestsState = (state: AppState) => state.httpRequest;
 
 export const hasPendingRequests = createSelector(
   selectHttpRequestsState,
-  (state: HttpRequestsState) => state && state.pendingRequests > 0
-);
-
-export const baseStateFromHttp = createSelector(
-  (state: AppState) => state,
-  (state) => state
+  (state: HttpRequestsState) => state
 );

@@ -8,7 +8,7 @@ export interface Giph {
   username: string;
   source: string;
   rating: string;
-  images: any[];
+  images: any;
   title: string;
   downsized: any;
 }

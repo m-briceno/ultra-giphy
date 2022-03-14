@@ -5,4 +5,5 @@ import { HttpRequestsState } from './http-request.state';
 export interface AppState {
   giphy: GiphyState;
   httpRequest: HttpRequestsState;
+  counter: number;
 }

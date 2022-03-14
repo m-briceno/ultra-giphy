@@ -1,11 +1,11 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
-import { mergeMap, withLatestFrom } from "rxjs";
+import { map, mergeMap, of, switchMap, withLatestFrom } from "rxjs";
 import { GiphyService } from "src/app/services/giphy.service";
-import { firstPage, lastPage, nextPage, previousPage, searchGiphies, searchSpecificGiphies } from "../actions/giphy.actions";
+import { firstPage, lastPage, nextPage, previousPage, searchGiphies, searchGiphiesSuccess, searchSpecificGiphies } from "../actions/giphy.actions";
 import { AppState } from "../interfaces/app.state";
-import { getGiphies } from "../selectors/giphy.selector";
+import { getCurrentPage, getGiphies } from "../selectors/giphy.selector";
 
 @Injectable()
 export class GiphyEffects {
@@ -18,7 +18,7 @@ export class GiphyEffects {
 
 
   //Probabily many things here will be unnecessary.
-  /* nextPage$ = createEffect(() =>
+  nextPage$ = createEffect(() =>
     this.actions$.pipe(
       ofType(nextPage),
       withLatestFrom(this.store.select(getGiphies)),
@@ -61,9 +61,21 @@ export class GiphyEffects {
   searchGiphies$ = createEffect(() =>
     this.actions$.pipe(
       ofType(searchGiphies),
-      withLatestFrom(this.store.select(getGiphies)),
-      mergeMap(([action, giphies]) => {
-        return [lastPage()];
+      withLatestFrom(
+        this.store.select(getGiphies),
+        this.store.select(getCurrentPage)
+      ),
+      switchMap(([action, giphies, pageNumber]) => {
+        return this.giphyService.fetchTrendingGiphies().pipe(
+          map(req => {
+            return searchGiphiesSuccess(
+              {
+                giphies: req.data,
+                pageNumber: giphies.length === 0 ? 0 : ++pageNumber,
+                totalCount: req.pagination.total_count
+              });
+          })
+        );
       })
     )
   );
@@ -72,9 +84,9 @@ export class GiphyEffects {
     this.actions$.pipe(
       ofType(searchSpecificGiphies),
       withLatestFrom(this.store.select(getGiphies)),
-      mergeMap(([action, giphies]) => {
+      switchMap(([action, giphies]) => {
         return [lastPage()];
       })
     )
-  ); */
+  );
 }

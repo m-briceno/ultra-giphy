@@ -34,7 +34,7 @@ import { environment } from '../environments/environment';
     AppRoutingModule,
     CoreModule,
     StoreModule.forRoot({
-      ultraGiphy: giphyState.reducer,
+      giphy: giphyState.reducer,
       httpRequests: httpRequests.reducer,
     }),
     EffectsModule.forRoot([GiphyEffects]),

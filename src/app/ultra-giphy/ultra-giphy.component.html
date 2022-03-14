@@ -1,7 +1,8 @@
 <div class="ultra-giphy">
   <app-header></app-header>
-  <div class="container">
-    <app-giphy-grid></app-giphy-grid>
-  </div>
+  <app-giphy-grid
+  [loading]="httpRequestCounter$ | async"
+  [giphies]="giphies"
+  ></app-giphy-grid>
   <app-footer></app-footer>
 </div>

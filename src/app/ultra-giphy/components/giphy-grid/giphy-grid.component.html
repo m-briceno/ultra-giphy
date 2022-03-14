@@ -1,1 +1,13 @@
-<p>giphy-grid works!</p>
+<div class="container giphy-grid">
+
+  <div class="spinner-border" role="status" *ngIf="loading">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+
+  <div class='row' *ngIf="!loading">
+    <div class='col-xs-12 col-md-4 col-sm-2 gray' *ngFor="let giphy of giphies;">
+      <img [src]="giphy.images.original.url" class="img-fluid">
+    </div>
+  </div>
+
+</div>

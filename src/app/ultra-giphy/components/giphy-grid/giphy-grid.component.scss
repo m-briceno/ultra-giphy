@@ -1,0 +1,13 @@
+.giphy-grid {
+  position: relative;
+  height: auto;
+  min-height: 100%;
+
+  .spinner-border {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    top: 20%;
+    left: 50%;
+  }
+}

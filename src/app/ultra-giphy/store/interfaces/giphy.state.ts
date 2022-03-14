@@ -5,6 +5,7 @@ import { AppState } from './app.state';
 export interface GiphyState {
   giphies: Giph[];
   currentPage: number;
+  totalCount: number;
 }
 
 export const getGiphyState = createFeatureSelector<AppState, GiphyState>('giphy');

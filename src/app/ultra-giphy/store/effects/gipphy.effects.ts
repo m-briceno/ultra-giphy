@@ -20,7 +20,7 @@ export class GiphyEffects {
   ) { }
 
 
-  //Probabily many things here will be unnecessary.
+  //Next and previous Violating DRY.
   nextPage$ = createEffect(() =>
     this.actions$.pipe(
       ofType(nextPage),
@@ -38,26 +38,6 @@ export class GiphyEffects {
         } else {
           return [searchGiphies()];
         }
-      })
-    )
-  );
-
-  previousPage$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(previousPage),
-      withLatestFrom(this.store.select(getGiphies)),
-      mergeMap(([action, giphies]) => {
-        return [lastPage()];
-      })
-    )
-  );
-
-  firstPage$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(firstPage),
-      withLatestFrom(this.store.select(getGiphies)),
-      mergeMap(([action, giphies]) => {
-        return [lastPage()];
       })
     )
   );

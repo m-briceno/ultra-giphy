@@ -53,8 +53,11 @@ export class UltraGiphyComponent implements OnInit, OnDestroy {
     this.store.dispatch(firstPage());
   }
 
+  // Last page will generate a problem with the current implementation. The data is pushed into the giphies array so if
+  // we have only the first page and click last, the pagenumber will change and we will push the last page onto the array
+  // therefore becoming the second page instead of the last page. Code commmented due to lack of time.
   onClickLast() {
-    this.store.dispatch(lastPage());
+    // this.store.dispatch(lastPage());
   }
 
   onClickNext() {

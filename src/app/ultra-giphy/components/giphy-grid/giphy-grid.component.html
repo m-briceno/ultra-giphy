@@ -11,8 +11,8 @@
 
     <nav class="mt-3" aria-label="Page navigation example ">
       <ul class="pagination">
-        <li class="page-item" (click)="first.emit()"><a class="page-link">First</a></li>
-        <li class="page-item" (click)="previous.emit()"><a class="page-link">&#60;</a></li>
+        <li class="page-item" (click)="first.emit()" [ngClass]="{'disabled': currentPage === 0}"><a class="page-link">First</a></li>
+        <li class="page-item" (click)="previous.emit()" [ngClass]="{'disabled': currentPage === 0}"><a class="page-link">&#60;</a></li>
         <li class="page-item" ><a class="page-link">{{currentPage + 1}}</a></li>
         <li class="page-item" (click)="next.emit()"><a class="page-link">	&#62;</a></li>
         <li class="page-item" (click)="last.emit()"><a class="page-link">Last</a></li>

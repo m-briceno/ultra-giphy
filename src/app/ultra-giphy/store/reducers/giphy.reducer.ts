@@ -1,12 +1,16 @@
 import { Action, createReducer, on } from '@ngrx/store';
+import { environment } from 'src/environments/environment';
 import { firstPage, lastPage, nextPage, previousPage, searchGiphies, searchGiphiesSuccess, searchSpecificGiphies } from '../actions/giphy.actions';
 import { GiphyState } from '../interfaces/giphy.state';
 
 const initialState: GiphyState = {
   giphies: [],
   currentPage: 0,
-  totalCount: 0
+  totalCount: 0,
+  preserveStoredGiphs: false
 };
+
+const pageSize = environment.pagesize;
 
 const giphyReducer = createReducer(
   initialState,
@@ -14,15 +18,30 @@ const giphyReducer = createReducer(
     ...state,
     currentPage: state.currentPage + 1
   })),
-  on(previousPage, state => ({ ...state })),
-  on(firstPage, state => ({ ...state })),
-  on(lastPage, state => ({ ...state })),
-  on(searchGiphiesSuccess, (state, {giphies,pageNumber, totalCount = 0}) => {
+  on(previousPage, state => ({
+    ...state,
+    currentPage: state.currentPage > 0 ? state.currentPage - 1 : 0,
+    preserveStoredGiphs: true
+  })),
+  on(firstPage, state => ({
+    ...state,
+    currentPage: 0,
+    preserveStoredGiphs: true
+  })),
+  on(lastPage, state => ({
+    ...state,
+    currentPage: Math.round((state.totalCount / pageSize)) - 1
+  })),
+  on(searchGiphiesSuccess, (state, { giphies, pageNumber, totalCount = 0 }) => {
+    // When we reset to the first page or toggle back and fort we cannot merge both arrays, the data will be duplicated.
+    // By using a control flag that we can bypass this problem.
+    const newGiphies = state.preserveStoredGiphs ? [...state.giphies] : [...state.giphies, ...giphies]
     return {
       ...state,
-      giphies: [...state.giphies, ...giphies],
+      giphies: newGiphies,
       currentPage: pageNumber,
-      totalCount
+      totalCount,
+      preserveStoredGiphs: state.preserveStoredGiphs && giphies.length / pageSize > pageNumber + 1
     };
   }),
   on(searchSpecificGiphies, (state, { query }) => ({ ...state })),

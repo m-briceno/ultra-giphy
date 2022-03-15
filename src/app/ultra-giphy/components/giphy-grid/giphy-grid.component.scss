@@ -10,4 +10,14 @@
     top: 20%;
     left: 50%;
   }
+
+  nav {
+    ul.pagination {
+      justify-content: end;
+
+      a {
+        cursor: pointer;
+      }
+    }
+  }
 }

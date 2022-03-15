@@ -3,6 +3,11 @@
   <app-giphy-grid
   [loading]="httpRequestCounter$ | async"
   [giphies]="giphies"
+  [currentPage]="currentPage"
+  (first)="onClickFirst()"
+  (last)="onClickLast()"
+  (next)="onClickNext()"
+  (previous)="onClickPrevious()"
   ></app-giphy-grid>
   <app-footer></app-footer>
 </div>

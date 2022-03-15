@@ -6,6 +6,7 @@ export const environment = {
   production: false,
   baseUrl: 'https://api.giphy.com/v1/gifs',
   apiKey: 'q0qKos9Wt3hE2XtByWG1AgyUCFJ3sesH',
+  pagesize: 9
 };
 
 /*

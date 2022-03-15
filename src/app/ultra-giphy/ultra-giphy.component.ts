@@ -3,9 +3,9 @@ import { Store } from '@ngrx/store';
 import { map, Observable, Subscription } from 'rxjs';
 import { GiphyService } from '../services/giphy.service';
 import { Giph } from './models/giph';
-import { searchGiphies } from './store/actions/giphy.actions';
+import { firstPage, lastPage, nextPage, previousPage, searchGiphies } from './store/actions/giphy.actions';
 import { AppState } from './store/interfaces/app.state';
-import { getGiphies } from './store/selectors/giphy.selector';
+import { getCurrentPage, getGiphies } from './store/selectors/giphy.selector';
 import { hasPendingRequests } from './store/selectors/http-requests.selector';
 
 @Component({
@@ -18,6 +18,7 @@ export class UltraGiphyComponent implements OnInit, OnDestroy {
   private subscriptions$: Subscription = new Subscription();
   httpRequestCounter$: Observable<any>;
   giphies: Giph[] = [];
+  currentPage: number = 0;
 
   constructor(
     private giphyService: GiphyService,
@@ -35,10 +36,33 @@ export class UltraGiphyComponent implements OnInit, OnDestroy {
         this.giphies = giphies;
       })
     );
+
+    this.subscriptions$.add(
+      this.store.select(getCurrentPage)
+      .subscribe(currentPage => {
+        this.currentPage = currentPage;
+      })
+    );
   }
 
   ngOnDestroy(): void {
       this.subscriptions$.unsubscribe();
+  }
+
+  onClickFirst() {
+    this.store.dispatch(firstPage());
+  }
+
+  onClickLast() {
+    this.store.dispatch(lastPage());
+  }
+
+  onClickNext() {
+    this.store.dispatch(nextPage());
+  }
+
+  onClickPrevious() {
+    this.store.dispatch(previousPage());
   }
 
 }

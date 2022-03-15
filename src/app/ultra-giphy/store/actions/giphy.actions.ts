@@ -28,7 +28,7 @@ export const searchGiphies = createAction(
 
 export const searchGiphiesSuccess = createAction(
   '[Giphy] Search random giphies successfully',
-  props<{ giphies: Giph[], pageNumber: number, totalCount: number }>()
+  props<{ giphies: Giph[], pageNumber: number, totalCount?: number }>()
 );
 
 export const searchSpecificGiphies = createAction(

@@ -3,12 +3,15 @@ import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import { map, mergeMap, of, switchMap, withLatestFrom } from "rxjs";
 import { GiphyService } from "src/app/services/giphy.service";
+import { environment } from "src/environments/environment";
+import { Giph } from "../../models/giph";
 import { firstPage, lastPage, nextPage, previousPage, searchGiphies, searchGiphiesSuccess, searchSpecificGiphies } from "../actions/giphy.actions";
 import { AppState } from "../interfaces/app.state";
 import { getCurrentPage, getGiphies } from "../selectors/giphy.selector";
 
 @Injectable()
 export class GiphyEffects {
+  private pageSize = environment.pagesize;
 
   constructor(
     private actions$: Actions,
@@ -21,9 +24,20 @@ export class GiphyEffects {
   nextPage$ = createEffect(() =>
     this.actions$.pipe(
       ofType(nextPage),
-      withLatestFrom(this.store.select(getGiphies)),
-      mergeMap(([action, giphies]) => {
-        return [lastPage()];
+      withLatestFrom(
+        this.store.select(getGiphies),
+        this.store.select(getCurrentPage)
+      ),
+      switchMap(([action, giphies, pageNumber]) => {
+        if(this.isPagePresent(pageNumber, giphies)) {
+          return [searchGiphiesSuccess(
+            {
+              giphies: giphies,
+              pageNumber,
+            })];
+        } else {
+          return [searchGiphies()];
+        }
       })
     )
   );
@@ -66,12 +80,12 @@ export class GiphyEffects {
         this.store.select(getCurrentPage)
       ),
       switchMap(([action, giphies, pageNumber]) => {
-        return this.giphyService.fetchTrendingGiphies().pipe(
+        return this.giphyService.fetchTrendingGiphies(pageNumber).pipe(
           map(req => {
             return searchGiphiesSuccess(
               {
                 giphies: req.data,
-                pageNumber: giphies.length === 0 ? 0 : ++pageNumber,
+                pageNumber: pageNumber,
                 totalCount: req.pagination.total_count
               });
           })
@@ -89,4 +103,11 @@ export class GiphyEffects {
       })
     )
   );
+
+  private isPagePresent(page: number, data: Giph[]): boolean {
+    if(data.length < (page * this.pageSize) + this.pageSize) {
+      return false
+    }
+    return true;
+  }
 }

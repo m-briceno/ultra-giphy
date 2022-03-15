@@ -10,7 +10,7 @@ import { GiphyRequest } from '../ultra-giphy/models/requests';
 })
 export class GiphyService {
   private giphyUrl = environment.baseUrl;
-  private pageSize = 9;
+  private pageSize = environment.pagesize;
   constructor(private http: HttpClient) { }
 
   public fetchSearchedGiphy(query: string, offset: number = 0): Observable<any> {
@@ -18,8 +18,8 @@ export class GiphyService {
     return of("")
   }
 
-  public fetchTrendingGiphies(offset: number = 0): Observable<GiphyRequest> {
-    const params = this.buildHttpParams(offset);
+  public fetchTrendingGiphies(page: number = 0): Observable<GiphyRequest> {
+    const params = this.buildHttpParams(page * this.pageSize);
     return this.http.get<GiphyRequest>(`${this.giphyUrl}/trending`, {params});
   }
 

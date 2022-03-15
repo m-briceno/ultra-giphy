@@ -10,14 +10,17 @@ const initialState: GiphyState = {
 
 const giphyReducer = createReducer(
   initialState,
-  on(nextPage, state => ({ ...state })),
+  on(nextPage, (state) => ({
+    ...state,
+    currentPage: state.currentPage + 1
+  })),
   on(previousPage, state => ({ ...state })),
   on(firstPage, state => ({ ...state })),
   on(lastPage, state => ({ ...state })),
-  on(searchGiphiesSuccess, (state, {giphies,pageNumber, totalCount}) => {
+  on(searchGiphiesSuccess, (state, {giphies,pageNumber, totalCount = 0}) => {
     return {
       ...state,
-      giphies,
+      giphies: [...state.giphies, ...giphies],
       currentPage: pageNumber,
       totalCount
     };

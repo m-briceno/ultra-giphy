@@ -12,13 +12,8 @@ import { AppState } from '../../store/interfaces/app.state';
 export class HeaderComponent implements OnInit {
 
   userInput: string = "";
-  // Left the form code which was a choice of implementation but in my opinion its an overkill
-  // searchForm: FormGroup;
-  constructor(private store: Store<AppState>) {
-    /* this.searchForm = new FormGroup({
-      userInput: new FormControl()
-    }); */
-  }
+
+  constructor(private store: Store<AppState>) {}
 
   ngOnInit(): void {
   }

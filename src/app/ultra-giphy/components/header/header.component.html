@@ -5,12 +5,6 @@
         <img src="./../../../../assets/giphy.png" alt="">
       </a>
 
-      <!-- An overkill in my opinion to use a formgroup-->
-      <!-- <form class="d-flex" [formGroup]="searchForm" (ngSubmit)="onSubmit()">
-        <input class="form-control me-2" formControlName="userInput" placeholder="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form> -->
-
       <div class="d-flex search-block" (ngSubmit)="onSubmit()">
         <input class="form-control me-2" [(ngModel)]="userInput" type="search"  placeholder="Search">
         <span [ngClass]="{'my-clear': userInput}" (click)="onClear()"></span>

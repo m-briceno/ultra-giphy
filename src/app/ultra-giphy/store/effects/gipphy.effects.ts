@@ -22,7 +22,6 @@ export class GiphyEffects {
   ) { }
 
 
-  //Next and previous Violating DRY.
   nextPage$ = createEffect(() =>
     this.actions$.pipe(
       ofType(nextPage),

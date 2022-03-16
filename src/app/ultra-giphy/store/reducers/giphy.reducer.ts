@@ -3,7 +3,7 @@ import { environment } from 'src/environments/environment';
 import { firstPage, lastPage, nextPage, previousPage, searchGiphies, searchGiphiesSuccess, setQueryToSearch } from '../actions/giphy.actions';
 import { GiphyState } from '../interfaces/giphy.state';
 
-const initialState: GiphyState = {
+export const giphyInitialState: GiphyState = {
   giphies: [],
   currentPage: 0,
   totalCount: 0,
@@ -14,7 +14,7 @@ const initialState: GiphyState = {
 const pageSize = environment.pagesize;
 
 const giphyReducer = createReducer(
-  initialState,
+  giphyInitialState,
   on(nextPage, (state) => ({
     ...state,
     currentPage: state.currentPage + 1
@@ -46,7 +46,7 @@ const giphyReducer = createReducer(
     };
   }),
   on(setQueryToSearch, (state, { query }) => ({
-    ...initialState,
+    ...giphyInitialState,
     searchQuery: query,
   })),
 );

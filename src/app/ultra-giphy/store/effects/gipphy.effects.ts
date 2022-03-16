@@ -2,12 +2,12 @@ import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import { TypedAction } from "@ngrx/store/src/models";
-import { map, mergeMap, of, switchMap, withLatestFrom } from "rxjs";
+import { map, switchMap, withLatestFrom } from "rxjs";
 import { GiphyService } from "src/app/services/giphy.service";
 import { environment } from "src/environments/environment";
 import { Giph } from "../../models/giph";
 import { GiphyRequest } from "../../models/requests";
-import { firstPage, lastPage, nextPage, previousPage, searchGiphies, searchGiphiesSuccess, setQueryToSearch } from "../actions/giphy.actions";
+import { nextPage, searchGiphies, searchGiphiesSuccess } from "../actions/giphy.actions";
 import { AppState } from "../interfaces/app.state";
 import { getCurrentPage, getGiphies, getSearchQuery } from "../selectors/giphy.selector";
 

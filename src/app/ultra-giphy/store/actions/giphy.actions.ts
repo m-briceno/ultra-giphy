@@ -26,12 +26,13 @@ export const searchGiphies = createAction(
   '[Giphy] Search random giphies'
 );
 
+
 export const searchGiphiesSuccess = createAction(
   '[Giphy] Search random giphies successfully',
   props<{ giphies: Giph[], pageNumber: number, totalCount?: number }>()
 );
 
-export const searchSpecificGiphies = createAction(
+export const setQueryToSearch = createAction(
   '[Giphy] Search for a user queried giphy',
   props<{ query: string; }>()
 );

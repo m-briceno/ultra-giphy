@@ -1,13 +1,14 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import { environment } from 'src/environments/environment';
-import { firstPage, lastPage, nextPage, previousPage, searchGiphies, searchGiphiesSuccess, searchSpecificGiphies } from '../actions/giphy.actions';
+import { firstPage, lastPage, nextPage, previousPage, searchGiphies, searchGiphiesSuccess, setQueryToSearch } from '../actions/giphy.actions';
 import { GiphyState } from '../interfaces/giphy.state';
 
 const initialState: GiphyState = {
   giphies: [],
   currentPage: 0,
   totalCount: 0,
-  preserveStoredGiphs: false
+  preserveStoredGiphs: false,
+  searchQuery: ''
 };
 
 const pageSize = environment.pagesize;
@@ -44,7 +45,10 @@ const giphyReducer = createReducer(
       preserveStoredGiphs: state.preserveStoredGiphs && giphies.length / pageSize > pageNumber + 1
     };
   }),
-  on(searchSpecificGiphies, (state, { query }) => ({ ...state })),
+  on(setQueryToSearch, (state, { query }) => ({
+    ...initialState,
+    searchQuery: query,
+  })),
 );
 
 export function reducer(

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
+import { searchGiphies, setQueryToSearch } from '../../store/actions/giphy.actions';
 import { AppState } from '../../store/interfaces/app.state';
 
 @Component({
@@ -23,6 +24,16 @@ export class HeaderComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.userInput);
+    this.dispatchQueryActions();
+  }
+
+  onClear() {
+    this.userInput = "";
+    this.dispatchQueryActions();
+  }
+
+  private dispatchQueryActions() {
+    this.store.dispatch(setQueryToSearch({query: this.userInput}));
+    this.store.dispatch(searchGiphies());
   }
 }

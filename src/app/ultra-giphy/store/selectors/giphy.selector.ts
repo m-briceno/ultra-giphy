@@ -13,3 +13,8 @@ export const getCurrentPage = createSelector(
   selectGiphyState,
   (state: GiphyState) => state.currentPage
 );
+
+export const getSearchQuery = createSelector(
+  selectGiphyState,
+  (state: GiphyState) => state.searchQuery
+);

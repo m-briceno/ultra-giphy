@@ -7,6 +7,22 @@
      img {
        width: 100px;
      }
-   }
 
+     .search-block {
+      position: relative;
+
+      span {
+        display: none;
+
+        &.my-clear {
+          display: block;
+          position: absolute;
+          height: 11px;
+          width: 11px;
+          right: 97px;
+          top: 14px;
+        }
+      }
+     }
+   }
  }

@@ -13,9 +13,9 @@ export class GiphyService {
   private pageSize = environment.pagesize;
   constructor(private http: HttpClient) { }
 
-  public fetchSearchedGiphy(query: string, offset: number = 0): Observable<any> {
-    const params = this.buildHttpParams(offset);
-    return of("")
+  public fetchSpecificGiphies(query: string, page: number = 0): Observable<GiphyRequest> {
+    const params = this.buildHttpParams(page * this.pageSize).append('q',query);
+    return this.http.get<GiphyRequest>(`${this.giphyUrl}/search`, {params});
   }
 
   public fetchTrendingGiphies(page: number = 0): Observable<GiphyRequest> {

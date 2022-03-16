@@ -2,26 +2,32 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.2.6.
 
-## Development server
+## Running
+In order to run the project node, or another package manager, must be installed. 
+First run npm i then run ng serve and navigate to localhost:4200. 
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## About
 
-## Code scaffolding
+Ultra giphy is an angular project that consumes the giphy API in order to present a 3x3 grid. 
+The giphie search is, by default, the trending giphies and if the user wants he can search
+for a specific giphy by querying the api through the search button.
+The project has a simple pagination implemented that allows to move forward, backward or return
+to the first page caching the results.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Implementation
 
-## Build
+UltraGiphy was developed using ngrx + effects to manage the application store. The calls to the api
+originate from effects that use a service to make the requests and when the response returns the
+data is then saved on the store through a reducer.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+The main component, smart component, is the UltraGiphyComponent that dispatches the actions and
+listens(subscribes) to the store changes and propagates the data to the grid component, dummy
+component, whose sole purpose is to handle the data accordingly and present it.
 
-## Running unit tests
+A service named GiphyService was created to make the giphy requests. These requests are intercepted by 
+the GiphyHeaderInterceptor and the HttpCounterInterceptor. The first one adds to the request the api 
+key whereas the second one, by using the store, implements a request counter. This request counter is
+used to display a loading when count > 0 in case the request is longer than expected.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+The project also supports routing but currently only has one route, the homepage. If the user tries
+to navigate to a different url an error page is presented with a link to return to the homepage.
